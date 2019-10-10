@@ -1,0 +1,8 @@
+Ibis_Name=Ibis4Test
+Database=h2
+Hostport=80
+Otap_Stage=LOC
+
+Ibis_Classes=$Project_Directory/$Ibis_Name/classes
+Ibis_Config=$Project_Directory/$Ibis_Name/configurations
+Ibis_Tests=$Project_Directory/$Ibis_Name/tests
