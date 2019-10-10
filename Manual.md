@@ -20,21 +20,41 @@ In the text file called project_directory you can give the path to the directory
 Inside one of these directories you can give a text file called "properties" to set certain properties such as the database you want to use. A template for this properties file can be found in the Git repository. In this file you can also set a path to your **classes**, **configurations**, and **tests** folders. The **classes** folder should contain your main configuration. If you have multiple configurations for your Ibis, the other configurations should be placed in the **configurations** folder.  When doing so make sure to set the classLoaderType of these configurations to DirectoryClassLoader in a DeploymentSpecifics file in the **classes** folder. In the **tests** folder you can place your Larva test scenarios.  If you do not have any extra configurations or any Larva test scenarios you should give an empty string to the properties Ibis_Config and Ibis_Tests respectively.
 It is also possible not to give a properties text file, in this case default values will be used when starting the IAF docker image. When using the default values the following directory structure is expected, given I have two Ibis configurations called Ibis4Example and Ibis4Test:
 
-```mermaid
-graph LR
-A[Project_Directory] --> B[Ibis4Example]
-A --> C[Ibis4Test]
-B --> D[classes]
-B --> E[configurations]
-B --> F[tests]
-C --> G[classes]
-C --> H[configurations]
-C --> I[tests]
-D -- contains --> J(Main configuration)
-E -- contains --> K(Other configurations)
-F -- contains --> L(Larva test scenarios)
-B --> M(properties.txt)
-C --> N(properties.txt)
+```
+
+                                         +---------+                    +--------------------+
+                            +----------->| classes |+-------contains--->| Main configuration |
+                            |            +---------+                    +--------------------+
+                            |
+                            |         +----------------+                +----------------------+
+                            |  +----->| configurations |+---contains--->| Other configurations |
+                +-----------+--+      +----------------+                +----------------------+
+         +----->| Ibis4Example |
+         |      +-----------+--+         +---------+                    +----------------------+
+         |                  |  +-------->|  tests  |+-------contains--->| Larva test scenarios |
+         |                  |            +---------+                    +----------------------+
+         |                  |
+         |                  |         +----------------+
+         |                  +-------->| properties.txt |
+         |                            +----------------+
+ +-------+-----------+
+ | Project_Directory |
+ +-------+-----------+
+         |                               +---------+
+         |               +-------------->| classes |
+         |               |               +---------+
+         |               |
+         |               |            +----------------+
+         |               |  +-------->| configurations |
+         |      +--------+--+         +----------------+
+         +----->| Ibis4Test |
+                +--------+--+            +---------+
+                         |  +----------->|  tests  |
+                         |               +---------+
+                         |
+                         |            +----------------+
+                         +----------->| properties.txt |
+                                      +----------------+
 ```
 Right now, the supported databases are Mssql Server, Postgresql and H2. In order to use these databases give "mssql", "postgresql" or "h2" as the Database property in the "properties" text file of your Ibis. It is important to give these exact strings. The default database used is H2.
 
