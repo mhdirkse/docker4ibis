@@ -10,14 +10,20 @@ For the time being it is necessary for you to build the IAF image yourself. The 
 
 Now, use the following command to build the image:
 
-- docker build -t iaf:7.5 .
+- docker build -t ibissource/iaf:7.5 .
 
 Wait for the building process to finish and you should be able to use the IAF image.
 
 ## Setup your project directories
 
 In the text file called project_directory you can give the path to the directory containing your Ibis configurations. Just change the value to the path you want. This project directory should contain one directory for every Ibis you have. The name of these directories should be the same as their corresponding Ibis.
-Inside one of these directories you can give a text file called "properties" to set certain properties such as the database you want to use. A template for this properties file can be found in the Git repository. In this file you can also set a path to your **classes**, **configurations**, and **tests** folders. The **classes** folder should contain your main configuration. If you have multiple configurations for your Ibis, the other configurations should be placed in the **configurations** folder.  When doing so make sure to set the classLoaderType of these configurations to DirectoryClassLoader in a DeploymentSpecifics file in the **classes** folder. In the **tests** folder you can place your Larva test scenarios.  If you do not have any extra configurations or any Larva test scenarios you should give an empty string to the properties Ibis_Config and Ibis_Tests respectively.
+Inside one of these directories you can give a text file called "properties" to set certain properties such as the database you want to use. A template for this properties file can be found in the Git repository. In this file you can also set a path to your **classes**, **configurations**, and **tests** folders. The **classes** folder should contain your main configuration. If you have multiple configurations for your Ibis, the other configurations should be placed in the **configurations** folder. When doing so make sure to set the classLoaderType of these configurations to DirectoryClassLoader in a DeploymentSpecifics file in the **classes** folder. For example, if I have an Ibis called Ibis4Example with a main configuration Ibis4Example and one extra configuration called MyConfig, I will need to add the following to a DeploymentSpecifics.properties file in the **classes** folder:
+```
+configurations.names=Ibis4Example,MyConfig
+configurations.MyConfig.classLoaderType=DirectoryClassLoader
+```
+
+In the **tests** folder you can place your Larva test scenarios.  If you do not have any extra configurations or any Larva test scenarios you should give an empty string to the properties Ibis_Config and Ibis_Tests respectively.
 It is also possible not to give a properties text file, in this case default values will be used when starting the IAF docker image. When using the default values the following directory structure is expected, given I have two Ibis configurations called Ibis4Example and Ibis4Test:
 
 ```

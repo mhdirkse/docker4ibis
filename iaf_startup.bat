@@ -24,7 +24,7 @@ if defined Ibis_Tests set Ibis_Tests=%Ibis_Tests:$Ibis_Name=!Ibis_Name!%
 echo version: "3"
 echo services:
 echo   oracle:
-echo     image: container-registry.oracle.com/database/enterprise
+echo     image: store/oracle/database-enterprise:12.2.0.1
 echo     container_name: IAF_oracle
 echo     expose:
 echo       - "1521"
@@ -57,7 +57,7 @@ if "%Database%" == "mssql" echo        ./wait-for-it.sh IAF_mssql:1433 --timeout
 if "%Database%" == "postgresql" echo        ./wait-for-it.sh IAF_postgres:5432 --timeout=0 --strict -- sleep 2^" 
 echo.
 echo   %Ibis_Name%:
-echo     image: iaf:7.5
+echo     image: ibissource/iaf:7.5
 echo     container_name: %Ibis_Name%
 echo     ports:
 echo       - "%Hostport%:8080"

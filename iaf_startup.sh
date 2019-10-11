@@ -18,7 +18,7 @@ source $Project_Directory/$1/properties.txt
 echo "version: \"3\"
 services:
   oracle:
-    image: container-registry.oracle.com/database/enterprise
+    image: store/oracle/database-enterprise:12.2.0.1
     container_name: IAF_oracle
     expose:
       - \"1521\"
@@ -43,7 +43,7 @@ services:
       - \"POSTGRES_PASSWORD: testiaf_user\"
 
   wait:
-    image: iaf:7.5
+    image: ibissource/iaf:7.5
     container_name: waiting_container     
     command: bash -c \""
 ) > docker-compose.yml
