@@ -77,8 +77,7 @@ then
 fi
 (
 echo "    environment:
-      - \"JAVA_OPTS=-Dotap.stage=$Otap_Stage -Dinstance.name=$Ibis_Name -Dscenariosroot1.directory=/usr/local/ibis/tests -Dscenariosroot1.description=Default -Dlocal.temp=/usr/local/tomcat/logs -Dweb.host=$Ibis_Name -Dweb.port=8080
-        -Dweb.contextpath=${Ibis_Name,,} -DCreateLargeFile.active=false -DMemoryLeak.active=false -Dconfigurations.directory=/usr/local/ibis/configurations\"
+      - \"JAVA_OPTS=-Dotap.stage=$Otap_Stage -Dinstance.name=$Ibis_Name -Dscenariosroot1.directory=/usr/local/ibis/tests -Dscenariosroot1.description=Default -Dlocal.temp=/usr/local/tomcat/logs -Dconfigurations.directory=/usr/local/ibis/configurations\"
     command: bash -c \"
        ./iaf-setup.sh $Database $Ibis_Name\""
 ) >> docker-compose.yml

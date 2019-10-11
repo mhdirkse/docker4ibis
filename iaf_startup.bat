@@ -20,10 +20,6 @@ if defined Ibis_Config set Ibis_Config=%Ibis_Config:$Ibis_Name=!Ibis_Name!%
 if defined Ibis_Tests set Ibis_Tests=%Ibis_Tests:$Project_Directory=!Project_Directory!%
 if defined Ibis_Tests set Ibis_Tests=%Ibis_Tests:$Ibis_Name=!Ibis_Name!%
 
-set lc_ibis_name=%Ibis_Name%
-call :tolower lc_ibis_name
-set lc_ibis_name
-
 (
 echo version: "3"
 echo services:
@@ -70,8 +66,7 @@ echo       - %Ibis_Classes%:/usr/local/tomcat/contextpath/docker/WEB-INF/classes
 if defined Ibis_Config echo       - %Ibis_Config%:/usr/local/ibis/configurations
 if defined Ibis_Tests echo       - %Ibis_Tests%:/usr/local/ibis/tests
 echo     environment:
-echo       - ^"JAVA_OPTS=-Dotap.stage=%Otap_Stage% -Dinstance.name=%Ibis_Name% -Dscenariosroot1.directory=/usr/local/ibis/tests -Dscenariosroot1.description=Default -Dlocal.temp=/usr/local/tomcat/logs -Dweb.host=%Ibis_Name% -Dweb.port=8080
-echo         -Dweb.contextpath=%lc_ibis_name% -DCreateLargeFile.active=false -DMemoryLeak.active=false -Dconfigurations.directory=/usr/local/ibis/configurations^"
+echo       - ^"JAVA_OPTS=-Dotap.stage=%Otap_Stage% -Dinstance.name=%Ibis_Name% -Dscenariosroot1.directory=/usr/local/ibis/tests -Dscenariosroot1.description=Default -Dlocal.temp=/usr/local/tomcat/logs -Dconfigurations.directory=/usr/local/ibis/configurations^"
 echo     command: bash -c ^"
 echo        ./iaf-setup.sh %Database% %Ibis_Name%^"
 ) > docker-compose.yml
@@ -100,7 +95,3 @@ if "%Database%" == "postgresql" (
 docker-compose up %Ibis_Name%
 
 exit
-
-:tolower
-for %%L IN (a b c d e f g h i j k l m n o p q r s t u v w x y z) DO SET %1=!%1:%%L=%%L!
-goto :EOF
