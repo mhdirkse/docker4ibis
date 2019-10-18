@@ -48,13 +48,35 @@ echo       - "5432"
 echo     environment:
 echo       - "POSTGRES_PASSWORD: testiaf_user"
 echo.
+echo   mysql:
+echo     image: mysql
+echo     container_name: IAF_mysql
+echo     expose:
+echo       - "3306"
+echo     environment:
+echo       - MYSQL_ROOT_PASSWORD=root
+echo     command: 
+echo       --lower_case_table_names=1
+echo.
+echo   mariadb:
+echo     image: mariadb
+echo     container_name: IAF_mariadb
+echo     expose:
+echo       - "3306"
+echo     environment:
+echo       - MYSQL_ROOT_PASSWORD=root
+echo     command: 
+echo       --lower_case_table_names=1
+echo.
 echo   wait:
-echo     image: iaf:7.5
+echo     image: ibissource/iaf:7.5
 echo     container_name: waiting_container
 echo     command: bash -c ^"
 if "%Database%" == "oracle" echo        ./wait-for-it.sh IAF_oracle:5500 --timeout=0 --strict -- sleep 2^"
 if "%Database%" == "mssql" echo        ./wait-for-it.sh IAF_mssql:1433 --timeout=0 --strict -- sleep 2^"
 if "%Database%" == "postgresql" echo        ./wait-for-it.sh IAF_postgres:5432 --timeout=0 --strict -- sleep 2^" 
+if "%Database%" == "mysql" echo        ./wait-for-it.sh IAF_mysql:3306 --timeout=0 --strict -- sleep 2^"
+if "%Database%" == "mariadb" echo        ./wait-for-it.sh IAF_mariadb:3306 --timeout=0 --strict -- sleep 2^"
 echo.
 echo   %Ibis_Name%:
 echo     image: ibissource/iaf:7.5
@@ -90,6 +112,16 @@ if "%Database%" == "postgresql" (
 	docker exec -it IAF_mssql bash -c "echo :setvar user c##%Ibis_Name%_user >> param_input.sql"
 	docker exec -it IAF_mssql bash -c "cat create_user.sql >> param_input.sql"
 	docker exec -it IAF_mssql bash -c "/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'SqlDevOps2017' -i param_input.sql"
+) else if "%Database%" == "mysql" (
+	docker cp mysql_create_user.sql IAF_mysql:/create_user.sql
+	docker exec -it IAF_mysql bash -c "sed -i 's/@user/%Ibis_Name%_user/g' create_user.sql"
+	docker exec -it IAF_mysql bash -c "sed -i 's/@db/%Ibis_Name%/g' create_user.sql"
+	docker exec -it IAF_mysql bash -c "mysql --password=root < create_user.sql"
+) else if "%Database%" == "mariadb" (
+	docker cp mariadb_create_user.sql IAF_mariadb:/create_user.sql
+	docker exec -it IAF_mariadb bash -c "sed -i 's/@user/%Ibis_Name%_user/g' create_user.sql"
+	docker exec -it IAF_mariadb bash -c "sed -i 's/@db/%Ibis_Name%/g' create_user.sql"
+	docker exec -it IAF_mariadb bash -c "mysql --password=root < create_user.sql"
 )
 
 docker-compose up %Ibis_Name%

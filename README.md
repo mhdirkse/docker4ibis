@@ -1,10 +1,13 @@
+
 # Use the IAF docker image to develop Ibis Configurations
 
 In this manual we will explain how you can use the IAF docker image to develop your own Ibis Configurations, without the need for a specific IDE such as Eclipse. We assume that you already have Docker Desktop installed and running on you computer, if not first install Docker Desktop.
 
 ## Building the IAF image
 
-For the time being it is necessary for you to build the IAF image yourself. The files needed to build the IAF image can be found in the IAF_Image directory. Open up your favorite command-line-interface and go to the IAF_Image directory on your computer. First make sure you are logged in with your Docker account. Use the command:
+The IAF Docker image can be found on DockerHub at https://hub.docker.com/r/ibissource/iaf. This means that it is not necassary to build the IAF image yourself, it will automatically be pulled from DockerHub when trying to start an IAF container. However if you still want to build the IAF image yourself you need to do the following:
+
+The files needed to build the IAF image can be found in the IAF_Image directory. Open up your favorite command-line-interface and go to the IAF_Image directory on your computer. First make sure you are logged in with your Docker account. Use the command:
 
 - docker login
 
@@ -17,7 +20,22 @@ Wait for the building process to finish and you should be able to use the IAF im
 ## Setup your project directories
 
 In the text file called project_directory you can give the path to the directory containing your Ibis configurations. Just change the value to the path you want. This project directory should contain one directory for every Ibis you have. The name of these directories should be the same as their corresponding Ibis.
-Inside one of these directories you can give a text file called "properties" to set certain properties such as the database you want to use. A template for this properties file can be found in the Git repository. In this file you can also set a path to your **classes**, **configurations**, and **tests** folders. The **classes** folder should contain your main configuration. If you have multiple configurations for your Ibis, the other configurations should be placed in the **configurations** folder. When doing so make sure to set the classLoaderType of these configurations to DirectoryClassLoader in a DeploymentSpecifics file in the **classes** folder. For example, if I have an Ibis called Ibis4Example with a main configuration Ibis4Example and one extra configuration called MyConfig, I will need to add the following to a DeploymentSpecifics.properties file in the **classes** folder:
+Inside one of these directories you can give a text file called "properties" to set certain properties such as the database you want to use. The following is a list of properties that can be set in this file:
+
+ - Ibis_Name: By default this is the name of the directory containing your ibis. If you want the name of the Ibis to have a different name you can set it here.
+ - Database: Set the database you want to use, needs to be one of the following values:
+    - h2
+    - postgresql
+    - mysql
+    - mariadb
+    - mssql
+- Hostport: Specify the port used to connect to the IAF container, default value is port 80.
+- Otap_Stage: Specify the otap stage, default value is LOC.
+- Ibis_Classes: Give a path to the directory containing your main configuration.
+- Ibis_Config: Give a path to the directory containing your other configurations.
+- Ibis_Tests: Give a path to the directory containing your Larva test scenarios.
+
+ A template for this properties file can be found in the Git repository. In this file you can set a path to your **classes**, **configurations**, and **tests** folders. The **classes** folder should contain your main configuration. If you have multiple configurations for your Ibis, the other configurations should be placed in the **configurations** folder. When doing so make sure to set the classLoaderType of these configurations to DirectoryClassLoader in a DeploymentSpecifics file in the **classes** folder. For example, if I have an Ibis called Ibis4Example with a main configuration Ibis4Example and one extra configuration called MyConfig, I will need to add the following to a DeploymentSpecifics.properties file in the **classes** folder:
 ```
 configurations.names=Ibis4Example,MyConfig
 configurations.MyConfig.classLoaderType=DirectoryClassLoader
@@ -28,17 +46,17 @@ It is also possible not to give a properties text file, in this case default val
 
 ```
 
-                                         +---------+                    +--------------------+
-                            +----------->| classes |+-------contains--->| Main configuration |
-                            |            +---------+                    +--------------------+
+                                         +---------+                       +--------------------+
+                            +----------->| classes |+----------contains--->| Main configuration |
+                            |            +---------+                       +--------------------+
                             |
-                            |         +----------------+                +----------------------+
-                            |  +----->| configurations |+---contains--->| Other configurations |
-                +-----------+--+      +----------------+                +----------------------+
+                            |         +----------------+                   +----------------------+
+                            |  +----->| configurations |+------contains--->| Other configurations |
+                +-----------+--+      +----------------+                   +----------------------+
          +----->| Ibis4Example |
-         |      +-----------+--+         +---------+                    +----------------------+
-         |                  |  +-------->|  tests  |+-------contains--->| Larva test scenarios |
-         |                  |            +---------+                    +----------------------+
+         |      +-----------+--+         +---------+                       +----------------------+
+         |                  |  +-------->|  tests  |+----------contains--->| Larva test scenarios |
+         |                  |            +---------+                       +----------------------+
          |                  |
          |                  |         +----------------+
          |                  +-------->| properties.txt |
@@ -62,11 +80,11 @@ It is also possible not to give a properties text file, in this case default val
                          +----------->| properties.txt |
                                       +----------------+
 ```
-Right now, the supported databases are Mssql Server, Postgresql and H2. In order to use these databases give "mssql", "postgresql" or "h2" as the Database property in the "properties" text file of your Ibis. It is important to give these exact strings. The default database used is H2.
+Right now, the supported databases are H2, PostgreSQL, MySQL, MariaDB and Microsoft SQL Server. In order to use these databases give "h2", "postgresql", "mysql", "mariadb" or "mssql" as the Database property in the "properties" text file of your Ibis. It is important to give these exact strings. The default database used is H2.
 
 ## Starting the docker container
 
-When everything is set up correctly you can easily start a docker container by executing either the "iaf_startup.bat" script (Windows) or the "iaf_startup.sh" script (Linux). You should also give the name of the Ibis you want to start as a parameter to the script. So for instance, if I want to start my Ibis4Example configuration on Windows I use:
+When everything is set up correctly you can easily start a docker container by executing either the "iaf_startup.bat" script (Windows) or the "iaf_startup.sh" script (Linux). You should also give the name of the directory containing the Ibis you want to start as a parameter to the script. So for instance, if I want to start my Ibis4Example configuration on Windows I use:
 
 - .\iaf_startup.bat Ibis4Example
 

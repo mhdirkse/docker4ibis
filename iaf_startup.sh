@@ -42,6 +42,26 @@ services:
     environment:
       - \"POSTGRES_PASSWORD: testiaf_user\"
 
+  mysql:
+    image: mysql
+    container_name: IAF_mysql
+    expose:
+      - \"3306\"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    command: 
+      --lower_case_table_names=1
+
+  mariadb:
+    image: mariadb
+    container_name: IAF_mariadb
+    expose:
+      - \"3306\"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    command: 
+      --lower_case_table_names=1
+
   wait:
     image: ibissource/iaf:7.5
     container_name: waiting_container     
@@ -56,11 +76,17 @@ then
 elif [ $Database == "postgresql" ]
 then
 	echo "       ./wait-for-it.sh IAF_postgres:5432 --timeout=0 --strict -- sleep 2\"" >> docker-compose.yml
+elif [ $Database == "mysql" ]
+then
+  echo "       ./wait-for-it.sh IAF_mysql:3306 --timeout=0 --strict -- sleep 2\"" >> docker-compose.yml
+elif [ $Database == "mariadb" ]
+then
+  echo "       ./wait-for-it.sh IAF_mariadb:3306 --timeout=0 --strict -- sleep 2\"" >> docker-compose.yml
 fi
 (
 echo "
   $Ibis_Name:
-    image: iaf:7.5
+    image: ibissource/iaf:7.5
     container_name: $Ibis_Name
     ports:
       - \"$Hostport:8080\"
@@ -108,6 +134,20 @@ then (
   docker exec -it IAF_mssql bash -c "echo :setvar user c##${Ibis_Name}_user >> param_input.sql"
   docker exec -it IAF_mssql bash -c "cat create_user.sql >> param_input.sql"
 	docker exec -it IAF_mssql bash -c "/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'SqlDevOps2017' -i create_user.sql"
+)
+elif [ $Database == "mysql" ] 
+then (
+  docker cp mysql_create_user.sql IAF_mysql:/create_user.sql
+  docker exec -it IAF_mysql bash -c "sed -i 's/@user/%Ibis_Name%_user/g' create_user.sql"
+  docker exec -it IAF_mysql bash -c "sed -i 's/@db/%Ibis_Name%/g' create_user.sql"
+  docker exec -it IAF_mysql bash -c "mysql --password=root < create_user.sql"
+)
+elif [ $Database == "mariadb" ] 
+then (
+  docker cp mariadb_create_user.sql IAF_mariadb:/create_user.sql
+  docker exec -it IAF_mariadb bash -c "sed -i 's/@user/%Ibis_Name%_user/g' create_user.sql"
+  docker exec -it IAF_mariadb bash -c "sed -i 's/@db/%Ibis_Name%/g' create_user.sql"
+  docker exec -it IAF_mariadb bash -c "mysql --password=root < create_user.sql"
 )
 fi
 
