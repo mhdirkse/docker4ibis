@@ -4,25 +4,31 @@ This project will help you run your Ibis configuration(s) with Docker.
 
 It is assumed you already have Docker Desktop installed and running on your computer (for OSX or Windows) or have the docker and docker-compose commands available on your system.
 
-Basically all you have to do is to clone this project to the same folder that contains your Ibis project folder(s) (or clone to an empty folder to start from scratch):
+Basically all you have to do is to clone this project from within the same folder that contains your Ibis project folder(s) (or clone to an empty folder to start from scratch):
 
 ```
-git clone https://github.com/ibissource/docker4ibis
+projects> git clone https://github.com/ibissource/docker4ibis
+```
+
+Change directory to docker4ibis:
+
+```
+projects> cd docker4ibis
 ```
 
 And on Windows run the following command to for example start Ibis4DockerExample:
 
 ```
-docker.bat Ibis4DockerExample
+docker4ibis> docker.bat Ibis4DockerExample
 ```
 
 When not using Windows run:
 
 ```
-docker.sh Ibis4DockerExample
+docker4ibis> docker.sh Ibis4DockerExample
 ```
 
-You can now browse to the following adres to find the Ibis4DockerExample console:
+You can now browse to the following address to find the Ibis4DockerExample console:
 
 ```
 http://localhost/ibis4dockerexample/
