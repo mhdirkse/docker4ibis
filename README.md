@@ -19,13 +19,13 @@ projects> cd docker4ibis
 And on Windows run the following command to for example start Ibis4DockerExample:
 
 ```
-docker4ibis> docker.bat Ibis4DockerExample
+docker4ibis> ./docker.bat Ibis4DockerExample
 ```
 
 When not using Windows run:
 
 ```
-docker4ibis> docker.sh Ibis4DockerExample
+docker4ibis> ./docker.sh Ibis4DockerExample
 ```
 
 You can now browse to the following address to find the Ibis4DockerExample console:
@@ -98,22 +98,21 @@ And you can remove a container with:
 
 ## Overwrite default values for Docker4Ibis settings
 
-In case for example you would like to have a different folder structure or like to use a different database you can specify this by adding a properties.txt to your Ibis folder. This file can contain the following properties:
+In case for example you would like to have a different folder structure or like to use a different database you can specify this by adding a file called docker4ibis.properties to your Ibis folder. This file can contain the following properties:
 
- - Ibis_Name: By default this is the name of the directory containing your ibis. If you want the name of the Ibis to have a different name you can set it here.
- - Database: Set the database you want to use, needs to be one of the following values. Right now, the supported databases are H2, PostgreSQL, MySQL, MariaDB and Microsoft SQL Server:
+ - database: Set the database you want to use, needs to be one of the following values. Right now, the supported databases are H2, PostgreSQL, MySQL, MariaDB and Microsoft SQL Server:
     - h2 (default)
     - postgresql
     - mysql
     - mariadb
     - mssql
-- Hostport: Specify the port used to connect to the IAF container, default value is port 80.
-- Otap_Stage: Specify the otap stage, default value is LOC.
-- Ibis_Classes: Give a path to the directory containing your main configuration.
-- Ibis_Config: Give a path to the directory containing your other configurations.
-- Ibis_Tests: Give a path to the directory containing your Larva test scenarios.
+- hostport: Specify the port used to connect to the IAF container, default value is port 80.
+- otap_stage: Specify the otap stage, default value is LOC.
+- ibis_classes: Give a path to the directory containing your main configuration, relative to the Ibis directory containing this properties file. Default is "classes".
+- ibis_config: Give a path to the directory containing your other configurations, relative to the Ibis directory containing this properties file. Default is "configurations".
+- ibis_tests: Give a path to the directory containing your Larva test scenarios, relative to the Ibis directory containing this properties file. Default is "tests".
 
- A template for this properties file can be found in the Git repository. In this file you can set a path to your **classes**, **configurations**, and **tests** folders. The **classes** folder should contain your main configuration.
+In this file you can set a path to your **classes**, **configurations**, and **tests** folders. The **classes** folder should contain your main configuration.
 
 If you have multiple configurations for your Ibis, the other configurations should be placed in the **configurations** folder. When doing so make sure to set the classLoaderType of these configurations to DirectoryClassLoader in a DeploymentSpecifics file in the **classes** folder. For example, if I have an Ibis called Ibis4Example with a main configuration Ibis4Example and one extra configuration called MyConfig, I will need to add the following to a DeploymentSpecifics.properties file in the **classes** folder:
 ```
@@ -121,10 +120,10 @@ configurations.names=Ibis4Example,MyConfig
 configurations.MyConfig.classLoaderType=DirectoryClassLoader
 ```
 
-In the **tests** folder you can place your Larva test scenarios.  If you do not have any extra configurations or any Larva test scenarios you should give an empty string to the properties Ibis_Config and Ibis_Tests respectively.
-It is also possible not to give a properties text file, in this case default values will be used when starting the IAF docker image.
+In the **tests** folder you can place your Larva test scenarios.  If you do not have any extra configurations or any Larva test scenarios you can give an empty string to the properties ibis_config and ibis_tests respectively.
+It is also possible not to give a docker4ibis.properties file, in this case default values will be used when starting the IAF docker image.
 
-In the text file called project_directory you can give the path to the directory containing your Ibis projects. Just change the value to the path you want. This project directory should contain one directory for every Ibis you have. The name of these directories should be the same as their corresponding Ibis.
+The docker4ibis directory from github also contains a file called docker4ibis.properties. In this file you can give the path to the directory containing your Ibis configurations. Just change the value of the projects_directory property to the path you want. This projects directory should contain one directory for every Ibis you have. The name of these directories should be the same as their corresponding Ibis. The value of the instance.name property will be the same as the name of the directory containing the Ibis, so make sure the directory has the correct name.
 
 ## Building the IAF image
 
