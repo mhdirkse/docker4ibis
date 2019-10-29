@@ -5,18 +5,28 @@ DATABASE_TYPE="$1"
 IBIS_NAME="${2,,}"
 USER="$IBIS_NAME"_user
 C_USER=c##"$2"_user
+FILE=/usr/local/tomcat/contextpath/docker/WEB-INF/classes/context.xml
 
 if [[ $DATABASE_TYPE == "" ]]; 
 	then 
 		echo "no database type given" 
 fi
 
-(
-echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+if test -f "$FILE"; then
+	cp $FILE /usr/local/tomcat/conf/context.xml
+	sed -i -e "s|</Context>||g" /usr/local/tomcat/conf/context.xml
+	(echo "	<Resource
+		name=\"jdbc/$IBIS_NAME\""
+	) >> /usr/local/tomcat/conf/context.xml
+else
+	(
+	echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <Context>
 	<Resource
 		name=\"jdbc/$IBIS_NAME\""
-) > /usr/local/tomcat/conf/context.xml
+	) > /usr/local/tomcat/conf/context.xml
+fi
+
 if [[ $DATABASE_TYPE == "oracle" ]]; then
 	(echo "		factory=\"org.apache.naming.factory.BeanFactory\"
 		type=\"oracle.jdbc.xa.client.OracleXADataSource\"
@@ -44,6 +54,16 @@ elif [[ $DATABASE_TYPE == "postgresql" ]]; then
  		maxIdle=\"10\"
  		maxWait=\"-1\"
  		validationQuery=\"select 1\"") >> /usr/local/tomcat/conf/context.xml
+elif [[ $DATABASE_TYPE == "mysql" ]] || [[ $DATABASE_TYPE == "mariadb" ]]; then
+	(echo "		auth=\"Container\"
+		type=\"javax.sql.DataSource\"
+		username=\"${2}_user\"
+		password=\"${2}_user\"
+		driverClassName=\"com.mysql.jdbc.Driver\"
+		url=\"jdbc:mysql://IAF_${DATABASE_TYPE}:3306/$IBIS_NAME\"
+		maxActive=\"8\"
+		maxIdle=\"3\"
+		validationQuery=\"select 1\"") >> /usr/local/tomcat/conf/context.xml
 else 
 	(echo "		type=\"org.h2.jdbcx.JdbcDataSource\"
 		factory=\"org.apache.naming.factory.BeanFactory\"
