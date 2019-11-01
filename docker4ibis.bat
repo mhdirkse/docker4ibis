@@ -16,7 +16,7 @@ set ibis_tests=tests
 
 PUSHD "%projects_directory%/%1"
 if exist docker4ibis.properties (
-	for /f "tokens=1,2 delims==" %%i in (%projects_directory%/%1/docker4ibis.properties) do set %%i=%%j
+	for /f "tokens=1,2 delims==" %%i in (docker4ibis.properties) do set %%i=%%j
 )
 POPD
 

@@ -19,13 +19,13 @@ projects> cd docker4ibis
 And on Windows run the following command to for example start Ibis4DockerExample:
 
 ```
-docker4ibis> ./docker.bat Ibis4DockerExample
+docker4ibis> ./docker4ibis.bat Ibis4DockerExample
 ```
 
 When not using Windows run:
 
 ```
-docker4ibis> ./docker.sh Ibis4DockerExample
+docker4ibis> ./docker4ibis.sh Ibis4DockerExample
 ```
 
 You can now browse to the following address to find the Ibis4DockerExample console:
