@@ -135,6 +135,6 @@ The files needed to build the IAF image can be found in the IAF_Image directory.
 
 Now, use the following command to build the image:
 
-- docker build -t ibissource/iaf:7.5 .
+- docker build -t ibissource/iaf:7.5-20190918.183145 .
 
 Wait for the building process to finish and you should be able to use the IAF image.
