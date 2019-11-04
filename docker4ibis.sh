@@ -69,7 +69,7 @@ services:
       --lower_case_table_names=1
 
   wait:
-    image: ibissource/iaf:7.5
+    image: ibissource/iaf:7.5-20190918.183145
     container_name: waiting_container     
     command: bash -c \""
 ) > docker-compose.yml
@@ -92,7 +92,7 @@ fi
 (
 echo "
   $ibis_name:
-    image: ibissource/iaf:7.5
+    image: ibissource/iaf:7.5-20190918.183145
     container_name: $ibis_name
     ports:
       - \"$hostport:8080\"

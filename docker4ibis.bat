@@ -76,7 +76,7 @@ echo     command:
 echo       --lower_case_table_names=1
 echo.
 echo   wait:
-echo     image: ibissource/iaf:7.5
+echo     image: ibissource/iaf:7.5-20190918.183145
 echo     container_name: waiting_container
 echo     command: bash -c ^"
 if "%database%" == "oracle" echo        ./wait-for-it.sh IAF_oracle:5500 --timeout=0 --strict -- sleep 2^"
@@ -86,7 +86,7 @@ if "%database%" == "mysql" echo        ./wait-for-it.sh IAF_mysql:3306 --timeout
 if "%database%" == "mariadb" echo        ./wait-for-it.sh IAF_mariadb:3306 --timeout=0 --strict -- sleep 2^"
 echo.
 echo   %ibis_name%:
-echo     image: ibissource/iaf:7.5
+echo     image: ibissource/iaf:7.5-20190918.183145
 echo     container_name: %ibis_name%
 echo     ports:
 echo       - "%hostport%:8080"
