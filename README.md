@@ -138,3 +138,7 @@ Now, use the following command to build the image:
 - docker build -t ibissource/iaf:7.5-20190918.183145 .
 
 Wait for the building process to finish and you should be able to use the IAF image.
+
+## Troubleshooting
+
+You will need to be able to share data between your local drive and the docker container. Sharing drives might not be set by default causing an error or making it so your configurations and tests cannot be found in the Ibis console. In order to share your local drive with docker you will need to go to the settings of Docker Desktop. In the settings menu go to the Shared Drives tab. Check the drive(s) you want to share with docker and click apply. Docker should now be able to use docker volumes and share files between your local drive and a docker container.
