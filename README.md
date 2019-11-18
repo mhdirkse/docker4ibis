@@ -141,4 +141,16 @@ Wait for the building process to finish and you should be able to use the IAF im
 
 ## Troubleshooting
 
-You will need to be able to share data between your local drive and the docker container. Sharing drives might not be set by default causing an error or making it so your configurations and tests cannot be found in the Ibis console. In order to share your local drive with docker you will need to go to the settings of Docker Desktop. In the settings menu go to the Shared Drives tab. Check the drive(s) you want to share with docker and click apply. Docker should now be able to use docker volumes and share files between your local drive and a docker container.
+- Only one container can run using the same hostport at a time, so if a specific port number is not available make sure there are no other containers still running that use the same port. Check the Checking on your containers section of this README to see how to stop any running containers. If a different application is using the specified hostport you need to either stop this other application or change the hostport in the docker4ibis.properties file of your Ibis as specified in the Overwrite default values for Docker4Ibis settings section of this README.
+
+- When opening the Ibis console make sure that the name of the Ibis in the URL is in all lowercase characters. The correct URL will be:
+```
+http://localhost:{HOSTPORT}/{Ibis Name in all lowercase}/
+```
+Replace {HOSTPORT} with the port number specified in the docker4ibis.properties file or the default port 80. If I want to run my Ibis called Ibis4DockerExample using port 8080 as the hostport, I can browse to the following address to find the Ibis4DockerExample console:
+
+```
+http://localhost:8080/ibis4dockerexample/
+```
+
+- You will need to be able to share data between your local drive and the docker container. Sharing drives might not be set by default causing an error or making it so your configurations and tests cannot be found in the Ibis console. In order to share your local drive with docker you will need to go to the settings of Docker Desktop. In the settings menu go to the Shared Drives tab. Check the drive(s) you want to share with docker and click apply. Docker should now be able to use docker volumes and share files between your local drive and a docker container.
