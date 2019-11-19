@@ -96,6 +96,12 @@ And you can remove a container with:
 
 - docker rm (**containername**)
 
+Sometimes it can be useful to look at the files inside the docker container. The docker container must be running for this to work. To do this use:
+
+- docker exec -it (**containername**) bash
+
+You can now use Linux commands inside the docker container. Type exit to return to your host machine.
+
 ## Overwrite default values for Docker4Ibis settings
 
 In case for example you would like to have a different folder structure or like to use a different database you can specify this by adding a file called docker4ibis.properties to your Ibis folder. This file can contain the following properties:
