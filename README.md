@@ -1,4 +1,4 @@
-# Run Ibis Configurations with docker
+# Run Ibis Configurations with Docker
 
 This project will help you run your Ibis configuration(s) with Docker.
 
