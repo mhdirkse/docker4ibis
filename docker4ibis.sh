@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ -z ${1+x} ]; then 
+  echo "PLease give the Ibis name as argument.";
+  exit 
+fi
+
 projects_directory=.. 
 ibis_name=$1
 database=h2

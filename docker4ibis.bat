@@ -2,6 +2,11 @@
 
 setlocal EnableExtensions EnableDelayedExpansion
 
+if [%1]==[] (
+	echo PLease give the Ibis name as argument.
+	exit
+)
+
 set projects_directory=..
 set ibis_name=%1
 set database=h2
