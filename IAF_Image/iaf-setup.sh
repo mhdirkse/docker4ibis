@@ -83,5 +83,3 @@ echo "<Context displayName=\"$IBIS_NAME\"
     reloadable=\"true\"
 />"
 ) > /usr/local/tomcat/conf/Catalina/localhost/${IBIS_NAME}.xml
-
-/usr/local/tomcat/bin/catalina.sh run

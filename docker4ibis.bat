@@ -102,7 +102,7 @@ if defined ibis_tests echo       - %projects_directory%/%ibis_name%/%ibis_tests%
 echo     environment:
 echo       - ^"JAVA_OPTS=-Dotap.stage=%otap_stage% -Dinstance.name=%ibis_name% -Dscenariosroot1.directory=/usr/local/ibis/tests -Dscenariosroot1.description=Default -Dlocal.temp=/usr/local/tomcat/logs -Dconfigurations.directory=/usr/local/ibis/configurations^"
 echo     command: bash -c ^"
-echo        ./iaf-setup.sh %database% %ibis_name%^"
+echo        ./iaf-run.sh %database% %ibis_name%^"
 ) > docker-compose.yml
 
 if defined database if NOT "%database%" == "h2" (

@@ -18,7 +18,9 @@ RUN rm /usr/local/tomcat/lib/jtds-1.3.1.zip
 COPY wait-for-it.sh wait-for-it.sh 
 RUN chmod +x wait-for-it.sh
 COPY iaf-setup.sh iaf-setup.sh
+COPY iaf-run.sh iaf-run.sh
 RUN chmod +x iaf-setup.sh
+RUN chmod +x iaf-run.sh
 RUN bash -c "catalina.sh start; sleep 5;"
 RUN mkdir /usr/local/tomcat/contextpath
 RUN mv docker /usr/local/tomcat/contextpath/docker

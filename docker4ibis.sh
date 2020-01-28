@@ -116,7 +116,7 @@ fi
 echo "    environment:
       - \"JAVA_OPTS=-Dotap.stage=$otap_stage -Dinstance.name=$ibis_name -Dscenariosroot1.directory=/usr/local/ibis/tests -Dscenariosroot1.description=Default -Dlocal.temp=/usr/local/tomcat/logs -Dconfigurations.directory=/usr/local/ibis/configurations\"
     command: bash -c \"
-       ./iaf-setup.sh $database $ibis_name\""
+       ./iaf-run.sh $database $ibis_name\""
 ) >> docker-compose.yml
 
 if [ ! -z $database ] && [ ! $database == "h2" ]
