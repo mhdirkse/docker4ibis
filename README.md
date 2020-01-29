@@ -80,7 +80,7 @@ More information on Ibis configuration files and Ibis property files and how to 
 
 ## Choosing your version of the IAF
 
-You can add a second argument to `docker4ibis.bat` or `docker4ibis.sh` script that defines the version. To search the available versions, please go to https://hub.docker.com/ and search for image `ibissource/iaf`. You should have one search result, please click it. You then have two tabs, "Overview" and "Tags". Choose one of the tags you see there, for example `7.5-20200124.103215`. You can then do
+You can add a second argument to `docker4ibis.bat` or `docker4ibis.sh` script that defines the version. To search the available versions, please go to https://hub.docker.com/ and search for image `ibissource/iaf`. You should have one search result, please click it. You then have two tabs, "Overview" and "Tags". Choose tab "Tags". Choose one of the tags you see there, for example `7.5-20200124.103215`. You can then do
 
 ```
 docker4ibis> ./docker4ibis.bat Ibis4DockerExample 7.5-20200124.103215
