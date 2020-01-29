@@ -3,20 +3,22 @@
 setlocal EnableExtensions EnableDelayedExpansion
 
 if [%1]==[] (
-	echo PLease give the Ibis name as argument.
-	exit
-)
-if [%2]==[] (
-	echo PLease give the Ibis Adapter Framework version as argument.
+	echo Please give the Ibis name as argument.
 	exit
 )
 
 set projects_directory=..
 set ibis_name=%1
-set iaf_version=%2
 set database=h2
 set hostport=80
 set otap_stage=LOC
+
+if -%2-==-- (
+	REM TODO: Replace by latest when we add tag "latest" on Dockerhub.
+    set iaf_version=7.5-20200124.103215
+) else (
+    set iaf_version=%2
+)
 
 for /f "tokens=1,2 delims==" %%i in (docker4ibis.properties) do set %%i=%%j
 
