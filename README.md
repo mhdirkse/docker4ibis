@@ -4,7 +4,7 @@ This project will help you run your Ibis configuration(s) with Docker.
 
 It is assumed you already have Docker Desktop installed and running on your computer (for OSX or Windows) or have the docker and docker-compose commands available on your system.
 
-Basically all you have to do is to clone this project from within the same folder that contains your Ibis project folder(s) (or clone to an empty folder to start from scratch), copy the desired **version** from ibissource/iaf repository found on docker hub and pass it as second argument when executing the command to start Ibis4DockerExample:
+Basically all you have to do is to clone this project from within the same folder that contains your Ibis project folder(s) (or clone to an empty folder to start from scratch):
 
 ```
 projects> git clone https://github.com/ibissource/docker4ibis
@@ -19,13 +19,13 @@ projects> cd docker4ibis
 On Windows run the following command to start Ibis4DockerExample:
 
 ```
-docker4ibis> ./docker4ibis.bat Ibis4DockerExample version
+docker4ibis> ./docker4ibis.bat Ibis4DockerExample
 ```
 
 When not using Windows run:
 
 ```
-docker4ibis> ./docker4ibis.sh Ibis4DockerExample version
+docker4ibis> ./docker4ibis.sh Ibis4DockerExample
 ```
 
 You can now browse to the following address to find the Ibis4DockerExample console:
@@ -77,6 +77,22 @@ You could for example add a file named Configuration.xml with the following cont
 ```
 
 More information on Ibis configuration files and Ibis property files and how to use them can be found in the Ibis manual which will soon be available.
+
+## Choosing your version of the IAF
+
+You can add a second argument to `docker4ibis.bat` or `docker4ibis.sh` script that defines the version. To search the available versions, please go to https://hub.docker.com/ and search for image `ibissource/iaf`. You should have one search result, please click it. You then have two tabs, "Overview" and "Tags". Choose one of the tags you see there, for example `7.5-20200124.103215`. You can then do
+
+```
+docker4ibis> ./docker4ibis.bat Ibis4DockerExample 7.5-20200124.103215
+```
+
+or the equivalent `docker4ibis.sh` command under Linux.
+
+Alternatively, you can build your own image as explained later in this file. When you tag it `ibissource/iaf:my` (docker argument `-t`), you can use it like:
+
+```
+docker4ibis> ./docker4ibis.bat Ibis4DockerExample my
+```
 
 ## Checking on your containers
 
@@ -141,7 +157,7 @@ The files needed to build the IAF image can be found in the IAF_Image directory.
 
 Now, use the following command to build the image:
 
-- docker build --build-arg IAF_VERSION=**version** -t ibissource/iaf:**version** .
+- docker build --build-arg IAF_VERSION=**version** -t ibissource/iaf:**yourtag** .
 
 Wait for the building process to finish and you should be able to use the IAF image.
 
