@@ -1,5 +1,5 @@
 FROM tomcat:7.0.93-jre8
-ENV IAF_VERSION=7.5-20190918.183145
+ARG IAF_VERSION
 WORKDIR /usr/local/tomcat/webapps
 RUN rm -rf docker
 RUN wget -O docker.war "https://nexus.ibissource.org/content/groups/public/org/ibissource/ibis-adapterframework-webapp/${IAF_VERSION}/ibis-adapterframework-webapp-${IAF_VERSION}.war"

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z ${1+x} ]; then 
-  echo "PLease give the Ibis name as argument.";
+  echo "Please give the Ibis name as argument.";
   exit 
 fi
 
@@ -15,6 +15,15 @@ env | grep ^project\\.dir= | cut -d= -f2-
 
 sed -i $'s/\r$//' docker4ibis.properties
 source docker4ibis.properties
+
+# TODO: Change default version to "latest"
+# when we have this tag on Dockerhub.
+
+if [ -z $2 ]; then
+    iaf_version=7.5-20200124.103215
+else
+    iaf_version=$2
+fi
 ibis_classes=classes
 ibis_config=configurations
 ibis_tests=tests
@@ -74,7 +83,7 @@ services:
       --lower_case_table_names=1
 
   wait:
-    image: ibissource/iaf:7.5-20190918.183145
+    image: ibissource/iaf:${iaf_version}
     container_name: waiting_container     
     command: bash -c \""
 ) > docker-compose.yml
@@ -97,7 +106,7 @@ fi
 (
 echo "
   $ibis_name:
-    image: ibissource/iaf:7.5-20190918.183145
+    image: ibissource/iaf:${iaf_version}
     container_name: $ibis_name
     ports:
       - \"$hostport:8080\"

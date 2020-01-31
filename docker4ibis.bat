@@ -3,7 +3,7 @@
 setlocal EnableExtensions EnableDelayedExpansion
 
 if [%1]==[] (
-	echo PLease give the Ibis name as argument.
+	echo Please give the Ibis name as argument.
 	exit
 )
 
@@ -12,6 +12,13 @@ set ibis_name=%1
 set database=h2
 set hostport=80
 set otap_stage=LOC
+
+if -%2-==-- (
+	REM TODO: Replace by latest when we add tag "latest" on Dockerhub.
+    set iaf_version=7.5-20200124.103215
+) else (
+    set iaf_version=%2
+)
 
 for /f "tokens=1,2 delims==" %%i in (docker4ibis.properties) do set %%i=%%j
 
@@ -81,7 +88,7 @@ echo     command:
 echo       --lower_case_table_names=1
 echo.
 echo   wait:
-echo     image: ibissource/iaf:7.5-20190918.183145
+echo     image: ibissource/iaf:%iaf_version%
 echo     container_name: waiting_container
 echo     command: bash -c ^"
 if "%database%" == "oracle" echo        ./wait-for-it.sh IAF_oracle:5500 --timeout=0 --strict -- sleep 2^"
@@ -91,7 +98,7 @@ if "%database%" == "mysql" echo        ./wait-for-it.sh IAF_mysql:3306 --timeout
 if "%database%" == "mariadb" echo        ./wait-for-it.sh IAF_mariadb:3306 --timeout=0 --strict -- sleep 2^"
 echo.
 echo   %ibis_name%:
-echo     image: ibissource/iaf:7.5-20190918.183145
+echo     image: ibissource/iaf:%iaf_version%
 echo     container_name: %ibis_name%
 echo     ports:
 echo       - "%hostport%:8080"
